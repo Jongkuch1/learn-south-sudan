@@ -6,8 +6,6 @@ export default defineConfig({
   server: {
     port: process.env.PORT || 3000,
     host: '0.0.0.0',
-    allowedHosts: [
-      'learn-south-sudan-3.onrender.com'  // Add your Render URL here
-    ]
+    allowedHosts: ['learn-south-sudan-3.onrender.com']
   }
 })
