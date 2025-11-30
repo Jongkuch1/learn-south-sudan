@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SSPLP - South Sudan Personalized Learning Platform
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/ssplp-platform)
@@ -898,3 +899,7 @@ This project is developed for educational purposes as part of the African Leader
 [⬆ Back to Top](#ssplp---south-sudan-personalized-learning-platform)
 
 </div>
+=======
+# learn-south-sudan
+South Sudan Personalized Learning Platform (SSPLP) is an educational technology solution designed to provide South Sudanese students with personalized, accessible, and high-quality learning resources. It uses adaptive learning, distance tutoring, and offline access to support education in low-resource settings.
+>>>>>>> c3396ab79a476f24a8b8cd3fc969a79c5a940cb2
