@@ -5,6 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: process.env.PORT || 3000,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    allowedHosts: [
+      'learn-south-sudan-3.onrender.com'
+    ]
   }
 })
