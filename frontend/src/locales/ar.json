@@ -1,0 +1,14 @@
+{
+  "welcome": "مرحبًا",
+  "login": "تسجيل الدخول",
+  "register": "تسجيل",
+  "language": "اللغة",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "educationalVideos": "الفيديوهات التعليمية",
+  "watchCurriculumVideos": "شاهد فيديوهات متوافقة مع المنهج لموادك الدراسية",
+  "loadingVideos": "جاري تحميل الفيديوهات...",
+  "moreVideosFor": "المزيد من الفيديوهات لـ",
+  "noVideosFound": "لم يتم العثور على فيديوهات",
+  "tryDifferentSubject": "جرب اختيار مادة مختلفة"
+}

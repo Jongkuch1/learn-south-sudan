@@ -1,0 +1,14 @@
+{
+  "welcome": "Welcome",
+  "login": "Login",
+  "register": "Register",
+  "language": "Language",
+  "email": "Email",
+  "password": "Password",
+  "educationalVideos": "Educational Videos",
+  "watchCurriculumVideos": "Watch curriculum-aligned videos for your subjects",
+  "loadingVideos": "Loading videos...",
+  "moreVideosFor": "More videos for",
+  "noVideosFound": "No videos found",
+  "tryDifferentSubject": "Try selecting a different subject"
+}

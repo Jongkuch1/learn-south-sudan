@@ -1,0 +1,212 @@
+/* Offline Resources Page */
+.offline-resources-page {
+  padding: 3rem 0;
+  min-height: calc(100vh - 70px);
+  background: #f5f5f5;
+}
+
+.page-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.connection-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.status-badge.online {
+  background: #e8f5e9;
+  color: var(--success);
+}
+
+.status-badge.offline {
+  background: #ffebee;
+  color: var(--error);
+}
+
+.offline-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.offline-sections .section {
+  margin-bottom: 3rem;
+}
+
+.offline-sections .section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.subject-card-offline {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.subject-card-offline:hover {
+  transform: translateY(-5px);
+}
+
+.subject-card-offline h3 {
+  margin: 1rem 0 0.5rem 0;
+}
+
+.subject-card-offline p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+.size-info {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.subject-card-offline .btn {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+  cursor: default;
+}
+
+.btn-success:hover {
+  background: var(--success);
+  transform: none;
+}
+
+.downloads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.download-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.download-icon {
+  font-size: 3rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.download-info {
+  flex: 1;
+}
+
+.download-info h4 {
+  margin: 0 0 0.5rem 0;
+}
+
+.download-info p {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.download-info small {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.download-info small i {
+  margin-right: 0.25rem;
+}
+
+.download-item .btn {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.offline-notice {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 12px;
+  color: #856404;
+  margin-top: 2rem;
+}
+
+.offline-notice i {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .connection-status {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .connection-status .btn {
+    width: 100%;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .download-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .download-item .btn {
+    width: 100%;
+  }
+}

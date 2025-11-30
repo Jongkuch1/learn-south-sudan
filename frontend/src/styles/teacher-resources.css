@@ -1,0 +1,115 @@
+/* Teacher Resources Section */
+.teacher-resources-section {
+  margin: 3rem 0;
+}
+
+.subject-selector {
+  margin-bottom: 2rem;
+}
+
+.subject-tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.subject-tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #e3f2fd;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #1976d2;
+}
+
+.subject-tab:hover {
+  transform: translateY(-2px);
+  background: #bbdefb;
+}
+
+.subject-tab.active {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.subject-dropdown {
+  display: none;
+}
+
+.resources-container {
+  margin-top: 2rem;
+}
+
+.resources-header {
+  display: none;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.no-resources {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.no-resources i {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.no-resources h4 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.no-resources p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.loading-state i {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .teacher-resources-section {
+    margin: 2rem 0;
+  }
+  
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .subject-tabs {
+    gap: 0.5rem;
+  }
+  
+  .subject-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}

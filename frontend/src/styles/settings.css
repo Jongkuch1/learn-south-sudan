@@ -1,0 +1,180 @@
+/* Settings page styles */
+.settings-page {
+  padding: 20px 0;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.settings-tabs button {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.settings-tabs button:hover {
+  color: #4A90E2;
+}
+
+.settings-tabs button.active {
+  color: #4A90E2;
+  border-bottom-color: #4A90E2;
+  font-weight: 600;
+}
+
+.settings-tabs button i {
+  margin-right: 8px;
+}
+
+.settings-section h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.settings-section > p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.settings-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.settings-card h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.settings-card p {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4A90E2;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.status-info {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.status-info p {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-fast {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.status-medium {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.status-slow {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.status-offline {
+  color: #9e9e9e;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4A90E2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .settings-tabs {
+    flex-direction: column;
+  }
+  
+  .settings-tabs button {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .settings-card {
+    padding: 15px;
+  }
+}
