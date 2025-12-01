@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Manager - SSPLP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/student-features.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="student-dashboard.html">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="student-dashboard.html" class="nav-link">Home</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="quizzes.html" class="nav-link">Quizzes</a>
+                <a href="tutoring.html" class="nav-link">Tutoring</a>
+                <a href="messaging.html" class="nav-link">Messages</a>
+                <a href="progress.html" class="nav-link">Progress</a>
+            </div>
+            <button id="logoutBtn" class="btn-signin">Logout</button>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-download"></i> Offline Downloads</h1>
+            <p>Download lessons to study without internet</p>
+
+            <div class="card">
+                <h2>Available to Download</h2>
+                <div id="availableContent" class="download-grid"></div>
+            </div>
+
+            <div class="card">
+                <h2>What You've Downloaded</h2>
+                <div id="downloadedContent" class="download-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/universal.js"></script>
+    <script src="js/student-features.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // FR04: Offline Download Manager
+        const subjects = [
+            { id: 'math', name: 'Mathematics', size: '25 MB' },
+            { id: 'english', name: 'English', size: '18 MB' },
+            { id: 'physics', name: 'Physics', size: '30 MB' },
+            { id: 'chemistry', name: 'Chemistry', size: '28 MB' },
+            { id: 'biology', name: 'Biology', size: '22 MB' }
+        ];
+
+        function loadAvailableContent() {
+            const student = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const downloaded = JSON.parse(localStorage.getItem('downloadedAssets') || '[]')
+                .filter(d => d.studentId === student.id);
+            const downloadedIds = downloaded.map(d => d.subjectId);
+            
+            const available = subjects.filter(s => !downloadedIds.includes(s.id));
+            
+            document.getElementById('availableContent').innerHTML = available.map(s => `
+                <div class="download-card">
+                    <i class="fas fa-book"></i>
+                    <h3>${s.name}</h3>
+                    <p>Size: ${s.size}</p>
+                    <button class="btn btn-primary" onclick="downloadSubject('${s.id}', '${s.name}')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `).join('') || '<p>All content downloaded</p>';
+        }
+
+        function loadDownloadedContent() {
+            const student = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const downloads = JSON.parse(localStorage.getItem('downloadedAssets') || '[]')
+                .filter(d => d.studentId === student.id);
+            
+            document.getElementById('downloadedContent').innerHTML = downloads.map(d => `
+                <div class="download-item">
+                    <div>
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                        <strong>${d.subjectName}</strong>
+                        <small>Downloaded: ${new Date(d.downloadedAt).toLocaleDateString()}</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="removeDownload(${d.id})">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            `).join('') || '<p>No downloaded content</p>';
+        }
+
+        function downloadSubject(subjectId, name) {
+            const student = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const download = {
+                id: Date.now(),
+                studentId: student.id,
+                subjectId: subjectId,
+                subjectName: name,
+                downloadedAt: new Date().toISOString()
+            };
+            
+            let downloads = JSON.parse(localStorage.getItem('downloadedAssets') || '[]');
+            downloads.push(download);
+            localStorage.setItem('downloadedAssets', JSON.stringify(downloads));
+            
+            alert('Downloaded successfully!');
+            loadAvailableContent();
+            loadDownloadedContent();
+        }
+
+        function removeDownload(id) {
+            const downloads = StudentFeatures.getDownloadedContent();
+            const updated = downloads.filter(d => d.id !== id);
+            localStorage.setItem('downloadedAssets', JSON.stringify(updated));
+            Universal.showToast('Content removed', 'info');
+            loadAvailableContent();
+            loadDownloadedContent();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAvailableContent();
+            loadDownloadedContent();
+        });
+    </script>
+</body>
+</html>

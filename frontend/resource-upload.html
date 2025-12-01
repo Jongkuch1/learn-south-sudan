@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resource - SSPLP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/teacher-features.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="teacher-dashboard.html">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="teacher-dashboard.html" class="nav-link">Home</a>
+                <a href="teacher-courses.html" class="nav-link active">Courses</a>
+                <a href="teacher-assignments.html" class="nav-link">Assignments</a>
+                <a href="teacher-students.html" class="nav-link">Students</a>
+                <a href="messaging.html" class="nav-link">Messages</a>
+                <a href="teacher-analytics.html" class="nav-link">Analytics</a>
+            </div>
+            <button id="logoutBtn" class="btn-signin">Logout</button>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-upload"></i> Upload Resource</h1>
+            
+            <div class="card">
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label>Resource Title *</label>
+                        <input type="text" id="resourceTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Type *</label>
+                        <select id="resourceType" required>
+                            <option value="">Select type</option>
+                            <option value="video">Video</option>
+                            <option value="audio">Audio</option>
+                            <option value="pdf">PDF Document</option>
+                            <option value="text">Text Content</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subject *</label>
+                        <select id="resourceSubject" required>
+                            <option value="">Select subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Biology">Biology</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Grade Level *</label>
+                        <select id="resourceGrade" required>
+                            <option value="">Select grade</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="resourceDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>File *</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to select file or drag and drop</p>
+                            <input type="file" id="fileInput" accept="video/*,audio/*,.pdf" required>
+                        </div>
+                        <div id="fileInfo" style="display: none;"></div>
+                    </div>
+
+                    <div id="uploadProgress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">0%</p>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="uploadBtn">
+                            <i class="fas fa-upload"></i> Upload Resource
+                        </button>
+                        <a href="teacher-courses.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Your Resources</h2>
+                <div id="resourcesList"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/universal.js"></script>
+    <script src="js/teacher-features.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let selectedFile = null;
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                document.getElementById('fileInfo').style.display = 'block';
+                document.getElementById('fileInfo').innerHTML = `
+                    <i class="fas fa-file"></i> ${selectedFile.name} 
+                    (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
+                `;
+            }
+        });
+
+        document.getElementById('fileUploadArea').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!selectedFile) {
+                Universal.showToast('Please select a file', 'error');
+                return;
+            }
+
+            const metadata = {
+                title: document.getElementById('resourceTitle').value,
+                type: document.getElementById('resourceType').value,
+                subject: document.getElementById('resourceSubject').value,
+                grade: document.getElementById('resourceGrade').value,
+                description: document.getElementById('resourceDescription').value
+            };
+
+            document.getElementById('uploadProgress').style.display = 'block';
+            document.getElementById('uploadBtn').disabled = true;
+
+            try {
+                await TeacherFeatures.uploadResource(selectedFile, metadata, (progress) => {
+                    document.getElementById('progressFill').style.width = progress + '%';
+                    document.getElementById('progressText').textContent = progress + '%';
+                });
+
+                Universal.showToast('Resource uploaded successfully! Pending admin approval.', 'success');
+                setTimeout(() => window.location.href = 'teacher-courses.html', 2000);
+            } catch (error) {
+                Universal.showToast(error, 'warning');
+                document.getElementById('uploadBtn').disabled = false;
+            }
+        });
+
+        function loadResources() {
+            const resources = TeacherFeatures.getResources();
+            const container = document.getElementById('resourcesList');
+            
+            container.innerHTML = resources.length ? resources.map(r => `
+                <div class="resource-item">
+                    <div>
+                        <i class="fas fa-${r.type === 'video' ? 'video' : r.type === 'audio' ? 'music' : 'file-pdf'}"></i>
+                        <strong>${r.title}</strong>
+                        <span class="badge badge-${r.status === 'approved' ? 'success' : 'warning'}">
+                            ${r.status.replace('_', ' ')}
+                        </span>
+                    </div>
+                    <small>${new Date(r.uploadedAt).toLocaleDateString()}</small>
+                </div>
+            `).join('') : '<p>No resources uploaded yet</p>';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadResources);
+    </script>
+</body>
+</html>

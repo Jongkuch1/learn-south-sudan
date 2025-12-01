@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Content - Learn South Sudan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="student-dashboard.html">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>LearnSouthSudan</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="student-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="offline-sync.html" class="nav-link active">Offline</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <button id="logoutBtn" class="nav-link btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="offline-sync">
+        <div class="container">
+            <div class="sync-status">
+                <div class="status-indicator">
+                    <i id="connectionIcon" class="fas fa-wifi"></i>
+                    <span id="connectionStatus">Online</span>
+                </div>
+                <button id="syncBtn" class="btn btn-primary">Sync Now</button>
+            </div>
+            
+            <div class="offline-content">
+                <div class="download-section card">
+                    <h2>Download for Offline</h2>
+                    <div class="download-options">
+                        <div class="download-item">
+                            <div>
+                                <h4>Mathematics - Algebra</h4>
+                                <p>5 lessons, 3 quizzes</p>
+                            </div>
+                            <button class="btn btn-secondary download-btn" data-content="math-algebra">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                        <div class="download-item">
+                            <div>
+                                <h4>English - Grammar</h4>
+                                <p>8 lessons, 4 quizzes</p>
+                            </div>
+                            <button class="btn btn-secondary download-btn" data-content="english-grammar">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="downloaded-content card">
+                    <h2>Downloaded Content</h2>
+                    <div id="downloadedItems">
+                        <!-- Downloaded items will be shown here -->
+                    </div>
+                </div>
+                
+                <div class="sync-queue card">
+                    <h2>Pending Sync</h2>
+                    <div id="syncQueue">
+                        <!-- Pending sync items will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

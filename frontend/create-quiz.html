@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz - Learn South Sudan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="teacher-dashboard.html">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>LearnSouthSudan</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="teacher-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="content-management.html" class="nav-link">Content</a>
+                <a href="create-quiz.html" class="nav-link active">Create Quiz</a>
+                <a href="analytics.html" class="nav-link">Students</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <button id="logoutBtn" class="nav-link btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="create-quiz">
+        <div class="container">
+            <h1>Create New Quiz</h1>
+            <p>Design assessments for your students</p>
+            
+            <div class="quiz-form">
+                <div class="card">
+                    <h2>Quiz Details</h2>
+                    <form id="quizForm">
+                        <div class="form-group">
+                            <label for="quizTitle">Quiz Title</label>
+                            <input type="text" id="quizTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="english">English</option>
+                                <option value="biology">Biology</option>
+                                <option value="physics">Physics</option>
+                                <option value="chemistry">Chemistry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeLimit">Time Limit (minutes)</label>
+                            <input type="number" id="timeLimit" min="5" max="180" value="30">
+                        </div>
+                        
+                        <div id="questionsContainer">
+                            <h3>Questions</h3>
+                            <div class="question-item">
+                                <div class="form-group">
+                                    <label>Question 1</label>
+                                    <textarea placeholder="Enter your question here..." required></textarea>
+                                </div>
+                                <div class="options-group">
+                                    <input type="text" placeholder="Option A" required>
+                                    <input type="text" placeholder="Option B" required>
+                                    <input type="text" placeholder="Option C" required>
+                                    <input type="text" placeholder="Option D" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Correct Answer</label>
+                                    <select required>
+                                        <option value="">Select correct answer</option>
+                                        <option value="A">Option A</option>
+                                        <option value="B">Option B</option>
+                                        <option value="C">Option C</option>
+                                        <option value="D">Option D</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="addQuestion" class="btn btn-secondary">Add Question</button>
+                            <button type="submit" class="btn btn-primary">Create Quiz</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

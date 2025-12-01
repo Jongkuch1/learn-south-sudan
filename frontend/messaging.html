@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Learn South Sudan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="#" id="dashboardLink">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="navMenu"></div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">AR</button>
+                </div>
+                <a href="profile.html" class="btn-secondary" style="padding: 8px 16px; display: flex; align-items: center; gap: 8px;">
+                    <img id="navProfilePic" src="https://via.placeholder.com/32" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #6d28d9;">
+                    <span data-i18n="profile">Profile</span>
+                </a>
+                <button id="logoutBtn" class="btn-signin" data-i18n="logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="messaging">
+        <div class="container">
+            <div class="messaging-container">
+                <div class="contacts-sidebar">
+                    <h2>Contacts</h2>
+                    <div class="contacts-list" id="contactsList">
+                        <!-- Contacts will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="chat-area">
+                    <div class="chat-header" id="chatHeader">
+                        <h3>Select a contact to start messaging</h3>
+                    </div>
+                    
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- Messages will be displayed here -->
+                    </div>
+                    
+                    <div class="message-input" id="messageInput" style="display: none;">
+                        <input type="text" id="messageText" placeholder="Type your message...">
+                        <button id="sendBtn" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/seed-data.js"></script>
+    <script src="js/app.js"></script>
+    <style>
+        .unread-badge {
+            background: #ef4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .contact-item {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .contact-item:hover {
+            background: #f3f0ff;
+        }
+        .contact-item.active {
+            background: #ede9fe;
+            border-left: 4px solid #6d28d9;
+        }
+        .contact-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #6d28d9;
+        }
+        .contact-info {
+            flex: 1;
+        }
+        .contact-name {
+            font-weight: 600;
+            margin: 0;
+        }
+        .contact-role {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 2px 0 0 0;
+        }
+    </style>
+    <script>
+        let currentUser, selectedContact;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!currentUser.id) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Setup navigation
+            const dashboardLink = document.getElementById('dashboardLink');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (currentUser.role === 'student') {
+                dashboardLink.href = 'student-dashboard.html';
+                navMenu.innerHTML = '<a href="student-dashboard.html" class="nav-link" data-i18n="home">Home</a><a href="subjects.html" class="nav-link" data-i18n="subjects">Subjects</a><a href="quizzes.html" class="nav-link" data-i18n="quizzes">Quizzes</a><a href="tutoring.html" class="nav-link" data-i18n="tutoring">Tutoring</a><a href="messaging.html" class="nav-link active" data-i18n="messages">Messages</a><a href="progress.html" class="nav-link" data-i18n="progress">Progress</a>';
+            } else if (currentUser.role === 'teacher') {
+                dashboardLink.href = 'teacher-dashboard.html';
+                navMenu.innerHTML = '<a href="teacher-dashboard.html" class="nav-link" data-i18n="home">Home</a><a href="teacher-courses.html" class="nav-link" data-i18n="courses">Courses</a><a href="teacher-assignments.html" class="nav-link" data-i18n="assignments">Assignments</a><a href="teacher-students.html" class="nav-link" data-i18n="students">Students</a><a href="messaging.html" class="nav-link active" data-i18n="messages">Messages</a><a href="teacher-analytics.html" class="nav-link" data-i18n="analytics">Analytics</a>';
+            } else if (currentUser.role === 'admin') {
+                dashboardLink.href = 'admin-dashboard.html';
+                navMenu.innerHTML = '<a href="admin-dashboard.html" class="nav-link" data-i18n="home">Home</a><a href="admin-users.html" class="nav-link" data-i18n="users">Users</a><a href="admin-content.html" class="nav-link" data-i18n="content">Content</a><a href="messaging.html" class="nav-link active" data-i18n="messages">Messages</a><a href="admin-reports.html" class="nav-link" data-i18n="reports">Reports</a>';
+            }
+            
+            if (currentUser.profilePicture) {
+                document.getElementById('navProfilePic').src = currentUser.profilePicture;
+            }
+            
+            loadContacts();
+            translatePage();
+        });
+        
+        function loadContacts() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const contacts = users.filter(u => u.id !== currentUser.id);
+            const container = document.getElementById('contactsList');
+            
+            if (contacts.length === 0) {
+                container.innerHTML = '<p style="padding: 20px; text-align: center; color: #6b7280;">No contacts available</p>';
+                return;
+            }
+            
+            container.innerHTML = contacts.map(contact => {
+                const avatar = contact.profilePicture || `https://ui-avatars.com/api/?name=${encodeURIComponent(contact.name)}&background=6d28d9&color=fff&size=45`;
+                return `
+                    <div class="contact-item" onclick="selectContact(${contact.id})" id="contact-${contact.id}">
+                        <img src="${avatar}" class="contact-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(contact.name)}&background=6d28d9&color=fff&size=45'">
+                        <div class="contact-info">
+                            <p class="contact-name">${contact.name}</p>
+                            <p class="contact-role">${contact.role}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectContact(contactId) {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            selectedContact = users.find(u => u.id === contactId);
+            
+            document.querySelectorAll('.contact-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('contact-' + contactId).classList.add('active');
+            
+            document.getElementById('chatHeader').innerHTML = `<h3>${selectedContact.name}</h3><p style="color: #6b7280; margin: 0;">${selectedContact.role}</p>`;
+            document.getElementById('messageInput').style.display = 'flex';
+            
+            loadMessages();
+        }
+        
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            const conversation = messages.filter(m => 
+                (m.senderId === currentUser.id && m.receiverId === selectedContact.id) ||
+                (m.senderId === selectedContact.id && m.receiverId === currentUser.id)
+            ).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            
+            const container = document.getElementById('messagesContainer');
+            if (conversation.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 40px;">No messages yet. Start the conversation!</p>';
+            } else {
+                container.innerHTML = conversation.map(msg => `
+                    <div class="message ${msg.senderId === currentUser.id ? 'sent' : 'received'}">
+                        ${msg.content}
+                        <small style="display: block; margin-top: 5px; opacity: 0.7; font-size: 11px;">${new Date(msg.timestamp).toLocaleString()}</small>
+                    </div>
+                `).join('');
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+        
+        document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
+        document.getElementById('messageText')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        function sendMessage() {
+            const input = document.getElementById('messageText');
+            const content = input.value.trim();
+            if (!content || !selectedContact) return;
+            
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            messages.push({
+                id: Date.now(),
+                senderId: currentUser.id,
+                receiverId: selectedContact.id,
+                content,
+                timestamp: new Date().toISOString(),
+                read: false
+            });
+            localStorage.setItem('messages', JSON.stringify(messages));
+            
+            input.value = '';
+            loadMessages();
+        }
+    </script>
+</body>
+</html>

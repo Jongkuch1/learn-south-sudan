@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Reports - Learn South Sudan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="student-dashboard.html">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>LearnSouthSudan</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="student-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="reports.html" class="nav-link active">Reports</a>
+                <a href="subjects.html" class="nav-link">Subjects</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <button id="logoutBtn" class="nav-link btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="reports">
+        <div class="container">
+            <h1>Performance Reports</h1>
+            
+            <div class="report-filters">
+                <select id="reportType">
+                    <option value="monthly">Monthly Report</option>
+                    <option value="termly">Termly Report</option>
+                    <option value="yearly">Yearly Report</option>
+                </select>
+                <button id="generateBtn" class="btn btn-primary">Generate Report</button>
+                <button id="downloadBtn" class="btn btn-secondary">Download PDF</button>
+            </div>
+            
+            <div class="report-content" id="reportContent">
+                <div class="report-summary card">
+                    <h2>Performance Summary</h2>
+                    <div class="summary-stats">
+                        <div class="stat">
+                            <h3 id="overallGrade">B+</h3>
+                            <p>Overall Grade</p>
+                        </div>
+                        <div class="stat">
+                            <h3 id="completionRate">85%</h3>
+                            <p>Completion Rate</p>
+                        </div>
+                        <div class="stat">
+                            <h3 id="timeSpent">120</h3>
+                            <p>Hours Studied</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="subject-breakdown card">
+                    <h2>Subject Performance</h2>
+                    <div id="subjectScores">
+                        <!-- Subject scores will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="recommendations card">
+                    <h2>Recommendations</h2>
+                    <div id="recommendations">
+                        <!-- Recommendations will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+    <script src="js/reports-generator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const reportType = document.getElementById('reportType');
+            const downloadBtn = document.getElementById('downloadBtn');
+            let currentReport = null;
+
+            function displayReport(report) {
+                currentReport = report;
+                
+                // Update summary stats
+                document.getElementById('overallGrade').textContent = report.performance.overallScore + '%';
+                document.getElementById('completionRate').textContent = report.progress.lessonsCompleted;
+                document.getElementById('timeSpent').textContent = report.progress.timeSpent;
+
+                // Display subject scores
+                const subjectScoresDiv = document.getElementById('subjectScores');
+                subjectScoresDiv.innerHTML = '';
+                Object.entries(report.performance.subjectScores).forEach(([subject, score]) => {
+                    const scoreItem = document.createElement('div');
+                    scoreItem.className = 'progress-item';
+                    scoreItem.innerHTML = `
+                        <span>${subject}</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${score}%"></div>
+                        </div>
+                        <span>${score}%</span>
+                    `;
+                    subjectScoresDiv.appendChild(scoreItem);
+                });
+
+                // Display recommendations
+                const recommendationsDiv = document.getElementById('recommendations');
+                recommendationsDiv.innerHTML = '';
+                report.recommendations.forEach(rec => {
+                    const recItem = document.createElement('div');
+                    recItem.className = 'info-item';
+                    recItem.innerHTML = `<i class="fas fa-lightbulb"></i> ${rec}`;
+                    recommendationsDiv.appendChild(recItem);
+                });
+            }
+
+            generateBtn.addEventListener('click', () => {
+                const type = reportType.value;
+                const report = reportsGenerator.generateStudentReport(currentUser.id, type);
+                if (report) {
+                    displayReport(report);
+                }
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                if (currentReport) {
+                    const reportText = reportsGenerator.exportReport(currentReport, 'text');
+                    const blob = new Blob([reportText], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `report_${currentReport.reportPeriod.type}_${new Date().toISOString().split('T')[0]}.txt`;
+                    a.click();
+                }
+            });
+
+            // Generate initial report
+            const initialReport = reportsGenerator.generateStudentReport(currentUser.id, 'monthly');
+            if (initialReport) {
+                displayReport(initialReport);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - SSPLP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="admin-dashboard.html">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html" class="nav-link">Home</a>
+                <a href="admin-users.html" class="nav-link">Users</a>
+                <a href="admin-content.html" class="nav-link">Content Approval</a>
+                <a href="admin-reports.html" class="nav-link active">Reports</a>
+                <a href="admin-settings.html" class="nav-link">System Settings</a>
+            </div>
+            <button id="logoutBtn" class="btn-signin">Logout</button>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-file-alt"></i> System Reports</h1>
+            <p>Generate and view platform reports</p>
+
+            <div class="card">
+                <h2>Available Reports</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <i class="fas fa-chart-bar" style="color: #2563eb;"></i>
+                        <div>
+                            <strong>User Activity Report</strong>
+                            <p>Monthly user engagement statistics</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-graduation-cap" style="color: #10b981;"></i>
+                        <div>
+                            <strong>Student Performance Report</strong>
+                            <p>Academic progress and achievements</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-book" style="color: #f59e0b;"></i>
+                        <div>
+                            <strong>Content Usage Report</strong>
+                            <p>Most accessed learning materials</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

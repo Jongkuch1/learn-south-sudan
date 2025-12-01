@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - SSPLP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="teacher-dashboard.html">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="teacher-dashboard.html" class="nav-link">Home</a>
+                <a href="teacher-courses.html" class="nav-link active">Courses</a>
+                <a href="teacher-assignments.html" class="nav-link">Assignments</a>
+                <a href="teacher-students.html" class="nav-link">Students</a>
+                <a href="messaging.html" class="nav-link">Messages</a>
+                <a href="teacher-analytics.html" class="nav-link">Analytics</a>
+            </div>
+            <button id="logoutBtn" class="btn-signin">Logout</button>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-book"></i> My Courses</h1>
+            <p>Manage your courses and learning materials</p>
+
+            <div class="card">
+                <h2>Available Courses</h2>
+                <div id="coursesList" class="subjects-list">
+                    <div class="subject-card">
+                        <i class="fas fa-calculator" style="color: #2563eb;"></i>
+                        <h3>Mathematics</h3>
+                        <p>15 lessons • 120 students</p>
+                        <button class="btn btn-primary btn-sm">Manage</button>
+                    </div>
+                    <div class="subject-card">
+                        <i class="fas fa-atom" style="color: #10b981;"></i>
+                        <h3>Physics</h3>
+                        <p>12 lessons • 95 students</p>
+                        <button class="btn btn-primary btn-sm">Manage</button>
+                    </div>
+                    <div class="subject-card">
+                        <i class="fas fa-flask" style="color: #f59e0b;"></i>
+                        <h3>Chemistry</h3>
+                        <p>10 lessons • 88 students</p>
+                        <button class="btn btn-primary btn-sm">Manage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

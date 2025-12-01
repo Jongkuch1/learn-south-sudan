@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports Generator - SSPLP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-features.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="admin-dashboard.html">
+                    <img src="logo..png" alt="SSPLP Logo" class="logo">
+                    <span>SSPLP</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html" class="nav-link">Home</a>
+                <a href="admin-users.html" class="nav-link">Users</a>
+                <a href="admin-content.html" class="nav-link">Content Approval</a>
+                <a href="admin-reports.html" class="nav-link active">Reports</a>
+                <a href="admin-settings.html" class="nav-link">System Settings</a>
+            </div>
+            <button id="logoutBtn" class="btn-signin">Logout</button>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-file-alt"></i> Reports Generator</h1>
+            
+            <div class="card">
+                <h2>Generate New Report</h2>
+                <form id="reportForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Report Type *</label>
+                            <select id="reportType" required>
+                                <option value="performance">Performance Report</option>
+                                <option value="usage">Usage Report</option>
+                                <option value="engagement">Engagement Report</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Period *</label>
+                            <select id="reportPeriod" required>
+                                <option value="monthly">Monthly</option>
+                                <option value="termly">Termly (3 months)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-file-download"></i> Generate Report
+                    </button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Generated Reports</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Period</th>
+                            <th>Generated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/universal.js"></script>
+    <script src="js/admin-features.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        function loadReports() {
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            const tbody = document.getElementById('reportsTable');
+            
+            tbody.innerHTML = reports.length ? reports.map(r => `
+                <tr>
+                    <td><span class="badge badge-info">${r.type}</span></td>
+                    <td>${r.period}</td>
+                    <td>${new Date(r.generatedAt).toLocaleString()}</td>
+                    <td>
+                        <button class="btn-icon" onclick="viewReport(${r.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-icon" onclick="AdminFeatures.downloadReport(${r.id})">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('') : '<tr><td colspan="4">No reports generated yet</td></tr>';
+        }
+
+        document.getElementById('reportForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            Universal.showLoading(true);
+            
+            setTimeout(() => {
+                const type = document.getElementById('reportType').value;
+                const period = document.getElementById('reportPeriod').value;
+                
+                AdminFeatures.generateReport(type, period);
+                Universal.showLoading(false);
+                loadReports();
+            }, 1500);
+        });
+
+        function viewReport(reportId) {
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            const report = reports.find(r => r.id == reportId);
+            
+            if (report) {
+                const content = `
+Report Type: ${report.type}
+Period: ${report.data.period}
+
+Total Users: ${report.data.totalUsers}
+Active Users: ${report.data.activeUsers}
+Quiz Attempts: ${report.data.quizAttempts}
+Average Score: ${report.data.avgScore}%
+                `;
+                
+                Universal.showModal('Report Details', `<pre>${content}</pre>`, [
+                    { label: 'Download', class: 'btn-primary', action: `AdminFeatures.downloadReport(${reportId})` },
+                    { label: 'Close', class: 'btn-secondary', action: 'Universal.closeAllModals()' }
+                ]);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadReports);
+    </script>
+</body>
+</html>
