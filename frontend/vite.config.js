@@ -1,11 +1,7 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
+export default {
   server: {
-    port: process.env.PORT || 3000,
-    host: '0.0.0.0',
-    allowedHosts: 'all'
+    allowedHosts: ['learn-south-sudan-4.onrender.com'],
+    host: true,
+    port: 5173
   }
-})
+}
